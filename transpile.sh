@@ -1,1 +1,1 @@
-node_modules/babel-cli/bin/babel.js -d ./sequelize-es5 ./sequelize-es6 -s
+node_modules/babel-cli/bin/babel.js ./sequelize-es6 --out-dir ./sequelize-es5
