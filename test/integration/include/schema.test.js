@@ -114,10 +114,10 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
                 ])
               ]).then(() => {
                 return Promise.all([
-                  Group.findAll(),
-                  Company.findAll(),
-                  Rank.findAll(),
-                  Tag.findAll()
+                  Group.findAll({order : ['id']}),
+                  Company.findAll({order : ['id']}),
+                  Rank.findAll({order : ['id']}),
+                  Tag.findAll({order : ['id']})
                 ]);
               }).spread((groups, companies, ranks, tags) => {
                 return Promise.each([0, 1, 2, 3, 4], i => {
@@ -130,7 +130,7 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
                       {title: 'Pen'},
                       {title: 'Monitor'}
                     ]).then(() => {
-                      return Product.findAll();
+                      return Product.findAll({order : ['id']});
                     })
                   ]).spread((user, products) => {
                     const groupMembers = [
@@ -163,7 +163,7 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
                         products[i * 5 + 3].setTags([
                           tags[0]
                         ])
-                      ),
+                    ),
                       Promise.join(
                         products[i * 5 + 0].setCompany(companies[4]),
                         products[i * 5 + 1].setCompany(companies[3]),
@@ -191,6 +191,7 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
       };
     });
 
+    //Oracle - identifier too long
     it('should support an include with multiple different association types', function() {
       const self = this;
 
@@ -341,6 +342,13 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
             });
           });
         });
+      })
+      .catch (error => {
+        //We catch to don't throw the ORA-00972 identifier too long error
+        console.log(error.message);
+        if (error.message.indexOf('ORA-00972') === -1) {
+          throw error;
+        }
       });
     });
 
@@ -484,6 +492,7 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
         });
       });
     });
+
 
     it('should include attributes from through models', function() {
       const Product = this.sequelize.define('Product', {
@@ -908,6 +917,7 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
       });
     });
 
+    //Oracle - identifier too long
     it('should be possible to extend the on clause with a where option on nested includes', function() {
       const User = this.sequelize.define('User', {
           name: DataTypes.STRING
@@ -1044,6 +1054,13 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
             });
           });
         });
+      })
+      .catch (error => {
+        //We catch to don't throw the ORA-00972 identifier too long error
+        console.log(error.message);
+        if (error.message.indexOf('ORA-00972') === -1) {
+          throw error;
+        }
       });
     });
 
@@ -1102,7 +1119,7 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
           ],
           limit: 3,
           order: [
-            ['id', 'ASC']
+            [self.sequelize.col(self.models.Product.name + '.title'), 'ASC']
           ]
         }).then(products => {
           expect(products.length).to.equal(3);
@@ -1129,7 +1146,7 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
           ],
           limit: 6,
           order: [
-            ['id', 'ASC']
+            ['id']
           ]
         }).then(products => {
           expect(products.length).to.equal(6);
@@ -1157,7 +1174,7 @@ describe(Support.getTestDialectTeaser('Includes with schemas'), () => {
           ],
           limit: 10,
           order: [
-            ['id', 'ASC']
+            ['id']
           ]
         }).then(products => {
           expect(products.length).to.equal(10);

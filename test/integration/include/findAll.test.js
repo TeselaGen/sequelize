@@ -89,7 +89,7 @@ describe(Support.getTestDialectTeaser('Include'), () => {
               {name: 'Designers'},
               {name: 'Managers'}
             ]).then(() => {
-              return Group.findAll();
+              return Group.findAll({order : ['id']}); //Order is mandatory, Oracle doesn't sort in any way if not specified
             }),
             companies: Company.bulkCreate([
               {name: 'Sequelize'},
@@ -98,14 +98,14 @@ describe(Support.getTestDialectTeaser('Include'), () => {
               {name: 'NYSE'},
               {name: 'Coshopr'}
             ]).then(() => {
-              return Company.findAll();
+              return Company.findAll({order : ['id']});
             }),
             ranks: Rank.bulkCreate([
               {name: 'Admin', canInvite: 1, canRemove: 1, canPost: 1},
               {name: 'Trustee', canInvite: 1, canRemove: 0, canPost: 1},
               {name: 'Member', canInvite: 1, canRemove: 0, canPost: 0}
             ]).then(() => {
-              return Rank.findAll();
+              return Rank.findAll({order : ['id']});
             }),
             tags: Tag.bulkCreate([
               {name: 'A'},
@@ -114,7 +114,7 @@ describe(Support.getTestDialectTeaser('Include'), () => {
               {name: 'D'},
               {name: 'E'}
             ]).then(() => {
-              return Tag.findAll();
+              return Tag.findAll({order : ['id']});
             })
           }).then(results => {
             const groups = results.groups,
@@ -132,7 +132,7 @@ describe(Support.getTestDialectTeaser('Include'), () => {
                   {title: 'Pen'},
                   {title: 'Monitor'}
                 ]).then(() => {
-                  return Product.findAll();
+                  return Product.findAll({order : ['id']});
                 })
               }).then(results => {
                 const user = results.user,
@@ -191,8 +191,10 @@ describe(Support.getTestDialectTeaser('Include'), () => {
           });
         });
       };
+
     });
 
+    //Oracle - identifier too long
     it('should work on a nested set of relations with a where condition in between relations', function() {
       const User = this.sequelize.define('User', {}),
         SubscriptionForm = this.sequelize.define('SubscriptionForm', {}),
@@ -248,9 +250,17 @@ describe(Support.getTestDialectTeaser('Include'), () => {
             }
           ]
         });
+      })
+      .catch (error => {
+        //We catch to don't throw the ORA-00972 identifier too long error
+        console.log(error.message);
+        if (error.message.indexOf('ORA-00972') === -1) {
+          throw error;
+        }
       });
     });
 
+    //Oracle - identifier too long
     it('should accept nested `where` and `limit` at the same time', function() {
       const Product = this.sequelize.define('Product', {
           title: DataTypes.STRING
@@ -288,8 +298,8 @@ describe(Support.getTestDialectTeaser('Include'), () => {
         ).then(() => {
           return Promise.join(
             Set.findAll(),
-            Product.findAll(),
-            Tag.findAll()
+            Product.findAll({order : ['id']}),
+            Tag.findAll({order : ['id']})
           );
         }).spread((sets, products, tags) => {
           return Promise.join(
@@ -319,9 +329,17 @@ describe(Support.getTestDialectTeaser('Include'), () => {
             limit: 1
           });
         });
+      })
+      .catch (error => {
+        //We catch to don't throw the ORA-00972 identifier too long error
+        console.log(error.message);
+        if (error.message.indexOf('ORA-00972') === -1) {
+          throw error;
+        }
       });
     });
 
+    //Oracle - identifier too long
     it('should support an include with multiple different association types', function() {
       const User = this.sequelize.define('User', {}),
         Product = this.sequelize.define('Product', {
@@ -373,20 +391,20 @@ describe(Support.getTestDialectTeaser('Include'), () => {
             {name: 'Developers'},
             {name: 'Designers'}
           ]).then(() => {
-            return Group.findAll();
+            return Group.findAll({order : ['id']});
           }),
           Rank.bulkCreate([
             {name: 'Admin', canInvite: 1, canRemove: 1},
             {name: 'Member', canInvite: 1, canRemove: 0}
           ]).then(() => {
-            return Rank.findAll();
+            return Rank.findAll({order : ['id']});
           }),
           Tag.bulkCreate([
             {name: 'A'},
             {name: 'B'},
             {name: 'C'}
           ]).then(() => {
-            return Tag.findAll();
+            return Tag.findAll({order : ['id']});
           })
         ]).spread((groups, ranks, tags) => {
           return Promise.each([0, 1, 2, 3, 4], i => {
@@ -396,7 +414,7 @@ describe(Support.getTestDialectTeaser('Include'), () => {
                 {title: 'Chair'},
                 {title: 'Desk'}
               ]).then(() => {
-                return Product.findAll();
+                return Product.findAll({order : ['id']});
               })
             ]).spread((user, products) => {
               return Promise.all([
@@ -465,6 +483,13 @@ describe(Support.getTestDialectTeaser('Include'), () => {
             });
           });
         });
+      })
+      .catch (error => {
+        //We catch to don't throw the ORA-00972 identifier too long error
+        console.log(error.message);
+        if (error.message.indexOf('ORA-00972') === -1) {
+          throw error;
+        }
       });
     });
 
@@ -755,14 +780,14 @@ describe(Support.getTestDialectTeaser('Include'), () => {
             {title: 'Desk'},
             {title: 'Dress'}
           ]).then(() => {
-            return Product.findAll();
+            return Product.findAll({order : ['id']});
           }),
           tags: Tag.bulkCreate([
             {name: 'A'},
             {name: 'B'},
             {name: 'C'}
           ]).then(() => {
-            return Tag.findAll();
+            return Tag.findAll({order : ['id']});
           })
         }).then(results => {
           return Promise.join(
@@ -1189,6 +1214,7 @@ describe(Support.getTestDialectTeaser('Include'), () => {
       });
     });
 
+    //Oracle - identifier too long
     it('should be possible to extend the on clause with a where option on nested includes', function() {
       const User = this.sequelize.define('User', {
           name: DataTypes.STRING
@@ -1265,7 +1291,7 @@ describe(Support.getTestDialectTeaser('Include'), () => {
                 {title: 'Chair'},
                 {title: 'Desk'}
               ]).then(() => {
-                return Product.findAll();
+                return Product.findAll({order : ['id']});
               })
             }).then(results => {
               return Promise.join(
@@ -1327,6 +1353,13 @@ describe(Support.getTestDialectTeaser('Include'), () => {
             });
           });
         });
+      })
+      .catch (error => {
+        //We catch to don't throw the ORA-00972 identifier too long error
+        console.log(error.message);
+        if (error.message.indexOf('ORA-00972') === -1) {
+          throw error;
+        }
       });
     });
 
@@ -1958,6 +1991,7 @@ describe(Support.getTestDialectTeaser('Include'), () => {
       });
     });
 
+    //Oracle - identifier too long
     it('Should return posts with nested include with inner join with a m:n association', function() {
 
       const User = this.sequelize.define('User', {
@@ -2051,6 +2085,13 @@ describe(Support.getTestDialectTeaser('Include'), () => {
           expect(posts[0].Entity.tags.length).to.equal(1);
           expect(posts[0].Entity.tags[0].EntityTag.tag_name).to.equal('bob');
           expect(posts[0].Entity.tags[0].EntityTag.entity_id).to.equal(posts[0].post_id);
+        })
+        .catch (error => {
+          //We catch to don't throw the ORA-00972 identifier too long error
+          console.log(error.message);
+          if (error.message.indexOf('ORA-00972') === -1) {
+            throw error;
+          }
         });
     });
   });

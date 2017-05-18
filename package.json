@@ -44,9 +44,12 @@
     "env-cmd": "^5.0.0",
     "generic-pool": "^3.1.6",
     "inflection": "1.10.0",
+    "js-crc": "^0.1.0",
     "lodash": "^4.17.1",
     "moment": "^2.13.0",
     "moment-timezone": "^0.5.4",
+    "pg": "^6.1.5",
+    "pg-hstore": "^2.3.2",
     "retry-as-promised": "^2.0.0",
     "semver": "^5.0.1",
     "terraformer-wkt-parser": "^1.1.2",
@@ -81,6 +84,9 @@
     "tedious": "^1.14.0",
     "uuid-validate": "^0.0.2"
   },
+  "optionalDependencies": {
+    "oracledb": "^1.11.0"
+  },
   "keywords": [
     "mysql",
     "sqlite",
@@ -104,11 +110,13 @@
     "test-unit-mysql": "cross-env DIALECT=mysql npm run test-unit",
     "test-unit-postgres": "cross-env DIALECT=postgres npm run test-unit",
     "test-unit-postgres-native": "cross-env DIALECT=postgres-native npm run test-unit",
+    "test-unit-oracle": "cross-env DIALECT=oracle npm run test-unit",
     "test-unit-sqlite": "cross-env DIALECT=sqlite npm run test-unit",
     "test-unit-mssql": "cross-env DIALECT=mssql npm run test-unit",
     "test-unit-all": "npm run test-unit-mysql && npm run test-unit-postgres && npm run test-unit-postgres-native && npm run test-unit-mssql && npm run test-unit-sqlite",
     "test-integration": "mocha --globals setImmediate,clearImmediate --ui tdd --check-leaks --colors -t 30000 --reporter spec \"test/integration/**/*.test.js\"",
     "test-integration-mysql": "cross-env DIALECT=mysql npm run test-integration",
+    "test-integration-oracle": "cross-env DIALECT=oracle npm run test-integration",
     "test-integration-postgres": "cross-env DIALECT=postgres npm run test-integration",
     "test-integration-postgres-native": "cross-env DIALECT=postgres-native npm run test-integration",
     "test-integration-sqlite": "cross-env DIALECT=sqlite npm run test-integration",

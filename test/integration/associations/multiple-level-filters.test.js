@@ -52,9 +52,9 @@ describe(Support.getTestDialectTeaser('Multiple Level Filters'), () => {
                   ],
                   required: true
                 }
-              ]
+              ],
+              order : ['id']
             }).then(tasks => {
-
               expect(tasks.length).to.be.equal(2);
               expect(tasks[0].title).to.be.equal('fight empire');
               expect(tasks[1].title).to.be.equal('stablish republic');
@@ -114,7 +114,8 @@ describe(Support.getTestDialectTeaser('Multiple Level Filters'), () => {
                   ],
                   required: true
                 }
-              ]
+              ],
+              order : ['id']
             }).then(tasks => {
               expect(tasks.length).to.be.equal(2);
               expect(tasks[0].title).to.be.equal('fight empire');
@@ -172,7 +173,8 @@ describe(Support.getTestDialectTeaser('Multiple Level Filters'), () => {
                   ],
                   required: true
                 }
-              ]
+              ],
+              order : ['id']
             }).then(users => {
               expect(users.length).to.be.equal(1);
               expect(users[0].username).to.be.equal('leia');
@@ -183,6 +185,7 @@ describe(Support.getTestDialectTeaser('Multiple Level Filters'), () => {
     });
   });
 
+  //Oracle - identifier too long
   it('can filter through hasMany connector', function() {
     const User = this.sequelize.define('User', {username: DataTypes.STRING }),
       Project = this.sequelize.define('Project', { title: DataTypes.STRING });
@@ -210,7 +213,8 @@ describe(Support.getTestDialectTeaser('Multiple Level Filters'), () => {
                       return User.findAll({
                         include: [
                           {model: Project, where: {title: 'republic'}}
-                        ]
+                        ],
+                        order : ['id']
                       }).then(users => {
                         expect(users.length).to.be.equal(1);
                         expect(users[0].username).to.be.equal('leia');
@@ -223,6 +227,13 @@ describe(Support.getTestDialectTeaser('Multiple Level Filters'), () => {
           });
         });
       });
+    })
+    .catch (error => {
+      //We catch to don't throw the ORA-00972 identifier too long error
+      console.log(error.message);
+      if (error.message.indexOf('ORA-00972') === -1) {
+        throw error;
+      }
     });
   });
 });

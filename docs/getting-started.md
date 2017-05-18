@@ -13,6 +13,7 @@ $ npm install --save pg pg-hstore
 $ npm install --save mysql2
 $ npm install --save sqlite3
 $ npm install --save tedious // MSSQL
+$ npm install --save oracledb #for oracle
 
 // Using Yarn
 $ yarn add sequelize
@@ -24,6 +25,8 @@ $ yarn add sqlite3
 $ yarn add tedious // MSSQL
 ```
 
+Note : Oracle needs extra stuff, see part installation of [Node OracleDB installation](https://github.com/oracle/node-oracledb)
+
 ## Setting up a connection
 
 Sequelize will setup a connection pool on initialization so you should ideally only ever create one instance per database if you're connecting to the DB from a single process. If you're connecting to the DB from multiple processes, you'll have to create one instance per process, but each instance should have a maximum connection pool size of "max connection pool size divided by number of instances".  So, if you wanted a max connection pool size of 90 and you had 3 worker processes, each process's instance should have a max connection pool size of 30.
@@ -31,7 +34,7 @@ Sequelize will setup a connection pool on initialization so you should ideally o
 ```js
 const sequelize = new Sequelize('database', 'username', 'password', {
   host: 'localhost',
-  dialect: 'mysql'|'sqlite'|'postgres'|'mssql',
+  dialect: 'mysql'|'sqlite'|'postgres'|'mssql'|'oracle',
 
   pool: {
     max: 5,
