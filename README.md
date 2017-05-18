@@ -1,6 +1,6 @@
 # Sequelize
 
-## Merged https://github.com/sequelize/sequelize/pull/7123 PR
+## This is a merge from https://github.com/sequelize/sequelize/pull/7123 PR for testing purposes
 
 ## To use
 `yarn add https://github.com/TeselaGen/sequelize`
