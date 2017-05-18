@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../sequelize-es6/lib/errors.js"],"names":["module","exports","require"],"mappings":"AAAA;;AAEAA,OAAOC,OAAP,GAAiBC,QAAQ,mBAAR,CAAjB","file":"errors.js","sourcesContent":["'use strict';\n\nmodule.exports = require('./errors/index.js');\n"]}
