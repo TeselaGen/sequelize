@@ -1,0 +1,1 @@
+{"version":3,"sources":["../sequelize-es6/index.js"],"names":["module","exports","require"],"mappings":"AAAA;;AAEA;;;;;;AAKAA,OAAOC,OAAP,GAAiBC,QAAQ,iBAAR,CAAjB","file":"index.js","sourcesContent":["'use strict';\n\n/**\n  * The entry point.\n  *\n  * @module Sequelize\n  */\nmodule.exports = require('./lib/sequelize');\n"]}
