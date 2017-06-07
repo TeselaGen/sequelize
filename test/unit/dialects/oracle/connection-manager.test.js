@@ -16,8 +16,8 @@ describe('[ORACLE] Connection Manager', () => {
       config = {
         dialect: 'oracle',
         host : 'localhost',
-        database: 'localhost:1521/xe.oracle.docker',
-        username: 'sequelize',
+        database: 'localhost:1521/xe',
+        username: 'SEQUELIZE',
         password: 'sequelize'
       };
       instance = new Sequelize(config.database, config.username, config.password, config);
@@ -40,9 +40,9 @@ describe('[ORACLE] Connection Manager', () => {
       config = {
         dialect: 'oracle',
         host: 'localhost',
-        username: 'sequelize',
+        username: 'SEQUELIZE',
         password: 'sequelize',
-        database: 'xe.oracle.docker'
+        database: 'xe'
       };
       instance = new Sequelize(config.database, config.username, config.password, config);
 
@@ -64,9 +64,9 @@ describe('[ORACLE] Connection Manager', () => {
       config = {
         dialect: 'oracle',
         host: '',
-        username: 'sequelize',
+        username: 'SEQUELIZE',
         password: 'sequelize',
-        database: 'xe.oracle.docker'
+        database: 'xe'
       };
       instance = new Sequelize(config.database, config.username, config.password, config);
 

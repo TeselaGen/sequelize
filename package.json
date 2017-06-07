@@ -36,7 +36,7 @@
     "url": "https://github.com/sequelize/sequelize/issues"
   },
   "dependencies": {
-    "bluebird": "^3.4.6",
+    "bluebird": "^3.5.0",
     "cls-bluebird": "^2.0.1",
     "debug": "^2.3.0",
     "depd": "^1.1.0",
@@ -45,9 +45,11 @@
     "generic-pool": "^3.1.6",
     "inflection": "1.10.0",
     "js-crc": "^0.1.0",
+    "knex": "^0.13.0",
     "lodash": "^4.17.1",
     "moment": "^2.13.0",
     "moment-timezone": "^0.5.4",
+    "oracledb": "^1.13.1",
     "pg": "^6.1.5",
     "pg-hstore": "^2.3.2",
     "retry-as-promised": "^2.0.0",
@@ -84,9 +86,7 @@
     "tedious": "^1.14.0",
     "uuid-validate": "^0.0.2"
   },
-  "optionalDependencies": {
-    "oracledb": "^1.11.0"
-  },
+  "optionalDependencies": {},
   "keywords": [
     "mysql",
     "sqlite",
@@ -106,7 +106,7 @@
     "test-docker-integration": "env-cmd ./test/config/.docker.env npm run test-integration",
     "docs": "esdoc && cp docs/ROUTER esdoc/ROUTER",
     "teaser": "node -e \"console.log('#'.repeat(process.env.DIALECT.length + 22) + '\\n# Running tests for ' + process.env.DIALECT + ' #\\n' + '#'.repeat(process.env.DIALECT.length + 22))\"",
-    "test-unit": "mocha --globals setImmediate,clearImmediate --ui tdd --check-leaks --colors -t 30000 --reporter spec \"test/unit/**/*.js\"",
+    "test-unit": "mocha --inspect --debug-brk --globals setImmediate,clearImmediate --ui tdd --check-leaks --colors -t 30000 --reporter spec \"test/unit/**/*.js\"",
     "test-unit-mysql": "cross-env DIALECT=mysql npm run test-unit",
     "test-unit-postgres": "cross-env DIALECT=postgres npm run test-unit",
     "test-unit-postgres-native": "cross-env DIALECT=postgres-native npm run test-unit",

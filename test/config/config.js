@@ -55,10 +55,10 @@ module.exports = {
   },
 
   oracle: {
-    username : process.env.NODE_ORACLEDB_USER || 'sequelize',
+    username : process.env.NODE_ORACLEDB_USER || 'SEQUELIZE',
     password : process.env.NODE_ORACLEDB_PASSWORD || 'sequelize',
     // https://github.com/oracle/node-oracledb/blob/master/doc/api.md#connectionstrings
-    database : process.env.NODE_ORACLEDB_CONNECTIONSTRING || 'xe.oracle.docker',
+    database : process.env.NODE_ORACLEDB_CONNECTIONSTRING || 'xe',
     host : process.env.NODE_ORACLEDB_HOST || 'localhost',
     dialectOptions : {stmtCacheSize:0, logAliasesQry:false},
     port : process.env.NODE_ORACLEDB_PORT || 1521,
